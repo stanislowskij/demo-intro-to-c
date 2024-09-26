@@ -1,0 +1,13 @@
+# IDE settings
+.vscode/
+
+# Ignore intermediate C files
+*.o
+*.i
+*.s
+
+# Ignore subdirectories
+preprocessing/
+compilation/
+assembly/
+linking/
