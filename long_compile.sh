@@ -19,30 +19,30 @@ fi
 if [ -d "linking" ] ; then
     rm -rf "linking"
 fi
+# -o flag specifies the directory/name of the final output file.
 
 # Preprocessor: expand macros, remove comments, include header files.
 mkdir preprocessing
 # -E flag stops gcc at the preprocessing stage.
-gcc -E main.c > preprocessor/main.i
-gcc -E stuff.c > preprocessor/stuff.i
+gcc -E main.c -o preprocessing/main.i
+gcc -E stuff.c -o preprocessing/stuff.i
 
 # Compiler: translate C code into machine-specific assembly code.
 mkdir compilation
 # -S flag stops gcc at the compilation stage, spits out assembly files.
-gcc -S preprocessor/main.i > compilation/main.s
-gcc -S preprocessor/stuff.i > compilation/stuff.s
+gcc -S preprocessing/main.i -o compilation/main.s
+gcc -S preprocessing/stuff.i -o compilation/stuff.s
 
 # Assembler: translate ASM code into machine (object) code.
 # At this point, the code is no longer human-readable at all.
 mkdir assembly
 # -c flag stops gcc at the assembly stage, spits out object files.
-gcc -c compilation/main.s > assembly/main.o
-gcc -c compilation/stuff.s > assembly/stuff.o
+gcc -c compilation/main.s -o assembly/main.o
+gcc -c compilation/stuff.s -o assembly/stuff.o
 
 # Linker: combine object files into one executable.
 mkdir linking
-# -o flag specifies the name of the final output file.
-gcc -o linking/main assembly/main.o assembly/stuff.o
+gcc assembly/main.o assembly/stuff.o -o linking/main 
 
 # Finally, execute the generated machine code.
 ./linking/main
